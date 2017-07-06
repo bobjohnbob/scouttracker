@@ -15,9 +15,13 @@ const client = new ApolloClient({
 	})
 });
 
+const loc = window.location;
+
+console.log("location: ", loc);
+
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<App />
+		<App slug={loc.pathname} query={loc.search} />
 	</ApolloProvider>, 
 	document.getElementById('root')
 );
