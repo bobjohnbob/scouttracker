@@ -1,22 +1,21 @@
 import React from "react";
 import { gql, graphql } from 'react-apollo';
 
-function ScoutOverview({data, scoutID}) {
-	console.log(data);
-	return (
-		<div>
-			{data.getScout && data.getScout.displayName}
-		</div>
-	);
-}
-
 export default graphql(gql`
 	query GetScoutData($scoutID:ID!){
 		getScout(id: $scoutID){
-			displayName
+			displayName,
+			advancementDeadline,
+			adventures,
+			acheivments,
 		}
 	}
-`,{options : ({scoutID}) => {
-	console.log("Building var! scoutId: ", scoutID);
-	return {variables: {scoutID}};
-}})(ScoutOverview);
+`,{
+	options : ({scoutID}) => ({variables: {scoutID}}),
+	props: ({ ownProps, data }) => {
+		scoutID: ownProps.scoutID,
+		displayName: data.getScout.displayName,
+		completedAdventures: data.getScout.adventures,
+		completedAchievements: data.getScout.achievements,
+		advancementDeadline: data.getScout.advancementDeadline
+});
