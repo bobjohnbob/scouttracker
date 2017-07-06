@@ -6,16 +6,33 @@ export default graphql(gql`
 		getScout(id: $scoutID){
 			displayName,
 			advancementDeadline,
-			adventures,
-			acheivments,
+			adventures {
+				edges {
+					node {
+						name
+					}
+				}
+			},
+			achievements {
+				edges {
+					node {
+						name
+					}
+				}
+			}
 		}
 	}
 `,{
 	options : ({scoutID}) => ({variables: {scoutID}}),
-	props: ({ ownProps, data }) => {
-		scoutID: ownProps.scoutID,
-		displayName: data.getScout.displayName,
-		completedAdventures: data.getScout.adventures,
-		completedAchievements: data.getScout.achievements,
-		advancementDeadline: data.getScout.advancementDeadline
+	props: ({ ownProps, data }) => (
+		data.getScout ? {
+			scoutID: ownProps.scoutID,
+			displayName: data.getScout.displayName,
+			completedAdventures: data.getScout.adventures,
+			completedAchievements: data.getScout.achievements,
+			advancementDeadline: data.getScout.advancementDeadline
+		} : {
+			scoutID: ownProps.scoutID
+		}
+	)
 });

@@ -1,13 +1,13 @@
 import React from "react";
 
-export default ScoutOverview = (
-	{scoutID, 
+export default ({
+	scoutID, 
 	displayName, 
 	advancementDeadline,
 	completedAdventures,
-	completedAchievements}
-) => {
-	console.log(data);
+	completedAchievements
+}) => {
+	console.log(displayName)
 	return (
 		<div>
 			{displayName}
