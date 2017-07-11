@@ -1,4 +1,3 @@
-import React from "react";
 import { gql, graphql } from 'react-apollo';
 
 export default graphql(gql`
@@ -16,7 +15,8 @@ export default graphql(gql`
 			achievements {
 				edges {
 					node {
-						name
+						number,
+						letter
 					}
 				}
 			}
