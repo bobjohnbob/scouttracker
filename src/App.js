@@ -6,11 +6,11 @@ import ScoutOverview from './components/ScoutOverview.js';
 class App extends Component {
 	render() {
 		const scoutID = getQueryParamByName("id", this.props.slug);
-		const MainView = ScoutOverviewCont(ScoutOverview);
+		const ScoutView = ScoutOverviewCont(ScoutOverview);
 
 		return (
 			<div className="App">
-				<MainView scoutID={scoutID} />
+				<ScoutView scoutID={scoutID} />
 			</div>
 		);
 	}
