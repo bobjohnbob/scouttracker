@@ -1,20 +1,17 @@
 import { gql, graphql } from 'react-apollo';
-import { stripEdges } from '../utils.js';
 
 export default graphql(gql`
 	query GetAchievementsForAdventure($adventureID:ID!){
-		getAdventure(id:$adventureID) {
-			achievements {
-				edges {
-					node {
-						id,
-						number,
-						letter,
-						description,
-						additionalText
-					}
-				}
+		allAchievements(filter: {
+			adventure: {
+				id: $adventureID
 			}
+		}) {
+			id,
+			number,
+			letter,
+			description,
+			additionalText
 		}
 	}
 `,{
@@ -26,8 +23,8 @@ export default graphql(gql`
 		};
 	},
 	props: ({ownProps, data}) => {
-		return data.getAdventure ? {
-			achievements: stripEdges(data.getAdventure.achievements),
+		return data.allAchievements ? {
+			achievements: data.allAchievements,
 			...ownProps
 		} : {...ownProps}
 

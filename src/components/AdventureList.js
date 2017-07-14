@@ -10,7 +10,7 @@ export default ({
 		return <div> Loading... </div>
 	}
 
-	const sortedAdventures =  allAdventures.sort((a,b) => (a.number > b.number));
+	const sortedAdventures = [...allAdventures].sort((a,b) => (a.number > b.number));
 
 	const [
 		requiredAdventures, 

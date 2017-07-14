@@ -8,7 +8,7 @@ export default ({achievements, id, completed}) => {
 		return <div>Loading...</div>
 	}
 	
-	const list = achievements.sort((a, b) => {
+	const list = [...achievements].sort((a, b) => {
 		if (a.number === b.number)
 			return a.letter > b.letter;
 		return a.number > b.number;
