@@ -1,15 +1,28 @@
 import React from 'react'
 
-import GetAchievements from "../containers/GetAchievementsForAdventure.js";
-import AchievementList from "./AchievementList.js";
+import GetAchievements from '../containers/GetAchievementsForAdventure.js';
+import AchievementList from './AchievementList.js';
+import {Card, CardHeader} from 'material-ui/Card';
 
-export default ({id, name, number, isRequired, achievements,
-		completedAdventures, completedAchievements}) => {
+const AchievementListComp = GetAchievements(AchievementList);
 
-	const AchievementListComp = GetAchievements(AchievementList);
-	return <div>
-		<div>{name}</div> 
-		<AchievementListComp adventureID={id} completed={completedAchievements}/>
-	</div>
+export default ({
+	id, 
+	name, 
+	number, 
+	isRequired, 
+	achievements, 
+	completed,
+	scoutID
+}) => {
+
+	const className = `adventure ${completed ? 'completed-adventure' :''}`;
+	return <Card className={className}>
+		<CardHeader title={name} /> 
+		<AchievementListComp 
+			scoutID = {scoutID} 
+			adventureID={id} 
+		/>
+	</Card>
 }
 

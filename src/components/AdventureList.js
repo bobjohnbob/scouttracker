@@ -1,39 +1,74 @@
-import React from "react"
+import React from 'react';
 import { splitFilter } from '../utils.js';
 import Adventure from './Adventure.js';
 
-export default ({
-	allAdventures,
-	completedAdventures
-}) => {
-	if(!allAdventures) {
-		return <div> Loading... </div>
+export default class AdventureList extends React.Component {
+	
+	componentWillMount() {
+		this.unsubscribe = this.props.subscribeToAdventures({
+			scoutID: this.props.scoutID
+		});
 	}
 
-	const sortedAdventures = [...allAdventures].sort((a,b) => (a.number > b.number));
+	render() {
+		const {
+			scoutID,
+			allAdventures,
+			completedAdventures
+		} = this.props;
+		console.log("completed!: ", completedAdventures);
 
-	const [
-		requiredAdventures, 
-		optionalAdventures
-	] = splitFilter(sortedAdventures, a => a.required);
+		if(!allAdventures || !allAdventures.length) {
+			return <div> Loading... </div>
+		}
 
-	const requiredAdventureList = requiredAdventures.map(adventure => {
-		return <Adventure key={adventure.id} {...adventure} />;
-	});
+		const completedMap = completedAdventures.reduce((map, adv) => {
+			map[adv.adventure.id] = adv;
+			return map;
+		}, {});
+		
+		const sortedAdventures = [...allAdventures].sort((a,b) => (a.number > b.number));
 
-	const optionalAdventureList = optionalAdventures.map(adventure => {
-		return <Adventure key={adventure.id} {...adventure} />;
-	});
+		const [
+			requiredAdventures, 
+			optionalAdventures
+		] = splitFilter(sortedAdventures, a => a.required);
 
-	return <div>
-		<div>
-			{requiredAdventureList}
-		</div>
-		<div>
-			{
-				//optionalAdventureList
+		const requiredAdventureList = requiredAdventures.map(adventure => {
+			const props = {
+				key: adventure.id,
+				scoutID: scoutID,
+				completed:  completedMap[adventure.id],
+				...adventure
 			}
-		</div>
-	</div>;
+			return <Adventure {...props} />;
+		});
+
+		const optionalAdventureList = optionalAdventures.map(adventure => {
+			console.log("ADVENTURE!: ", adventure);
+			const props = {
+				key: adventure.id,
+				scoutID: scoutID,
+				completed:  completedMap[adventure.id],
+				...adventure
+			}
+			return <Adventure {...props} />;
+		});
+
+		return <div className="adventure-list" >
+			<div >
+				{requiredAdventureList}
+			</div>
+			<div>
+				{
+					//optionalAdventureList
+				}
+			</div>
+		</div>;
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
+	}
 }
 

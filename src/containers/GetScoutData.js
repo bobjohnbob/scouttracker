@@ -5,29 +5,57 @@ export default graphql(gql`
 		Scout(id: $scoutID) {
 			displayName
 			advancementDeadline
-			completedAdventures {
-				id
-				name
-			}
-			completedAchievements {
-				id
-				number
-				letter
-			}
 		}
 	}
 
 `,{
 	options : ({scoutID}) => ({variables: {scoutID}}),
-	props: ({ ownProps, data }) => (
-		data.Scout ? {
+	name: 'scoutData',
+	props: ({ ownProps, data, scoutData }) => {
+		const subscribeToData = params => {
+			return scoutData.subscribeToMore({
+				document: gql`
+					subscription subscribeToScoutData($scoutID:ID!){
+						Scout(filter: {
+							mutation_in: [UPDATED]
+							node: {
+								id: $scoutID
+							}
+						}) {
+							mutation
+							node {
+								displayName
+								advancementDeadline
+							}
+						}
+					}
+				`,
+				variables: {
+					scoutID: params.scoutID
+				},
+				updateQuery: (prev, {subscriptionData}) => {
+					if(!subscriptionData.data) {
+						console.log('no data!');
+						return prev;
+					}
+					console.log('data! : ', prev, ':', subscriptionData);
+					return Object.assign({}, prev, {
+						Scout: subscriptionData.data.Scout.node
+					});
+				}
+			});
+		};
+		return scoutData.Scout ? {
 			scoutID: ownProps.scoutID,
-			displayName: data.Scout.displayName,
-			advancementDeadline: data.Scout.advancementDeadline,
-			completedAdventures: data.Scout.completedAdventures,
-			completedAchievements: data.Scout.completedAchievements
+			displayName: scoutData.Scout.displayName,
+			advancementDeadline: scoutData.Scout.advancementDeadline,
+			subscribeToData,
+			...ownProps
 		} : {
-			scoutID: ownProps.scoutID
+			scoutID: ownProps.scoutID,
+			subscribeToData,
+			...ownProps
 		}
-	)
+	}
 });
+
