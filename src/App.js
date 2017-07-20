@@ -7,7 +7,7 @@ const ScoutView = ScoutOverviewCont(ScoutOverview);
 
 class App extends Component {
 	render() {
-		const scoutID = getQueryParamByName("id", this.props.slug);
+		const scoutID = getQueryParamByName("id", this.props.query);
 
 		return (
 			<div className="App">
