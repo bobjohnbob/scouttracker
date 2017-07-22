@@ -1,6 +1,7 @@
 import React from 'react';
 import Achievement from './Achievement.js';
 import CompleteAchievement from '../containers/CompleteAchievement.js';
+import {Div} from 'glamorous';
 
 const AchievementButton = CompleteAchievement(Achievement);
 
@@ -43,9 +44,9 @@ export default class AchievementList extends React.Component {
 			return <AchievementButton {...props} />
 		});
 		
-		return <div>
+		return <Div disply="flex" padding="0.5rem">
 			{list}
-		</div>
+		</Div>
 	}
 
 	componentWillUnmount() {
