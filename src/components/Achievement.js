@@ -19,7 +19,6 @@ export default({
 	uncompleteAchievement
 }) => {
 	if(completed) {
-		console.log("Completed: ", completed);
 		const variables = {
 			id: completed.id
 		};
