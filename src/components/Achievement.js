@@ -1,5 +1,4 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
 import { Div } from 'glamorous';
 
 const blue = "#00BCD4";
