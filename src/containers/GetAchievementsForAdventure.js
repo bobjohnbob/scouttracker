@@ -70,7 +70,6 @@ export default graphql(gql`
 				},
 				updateQuery: (prev, response) => {
 					const subscriptionData = response.subscriptionData.data.CompletedAchievement;
-					console.log("UPDATE! :", response);
 
 					let updatedAchievements;
 					const oldAchievements = prev.completed

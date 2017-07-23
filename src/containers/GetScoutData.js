@@ -35,7 +35,6 @@ export default graphql(gql`
 				},
 				updateQuery: (prev, {subscriptionData}) => {
 					if(!subscriptionData.data) {
-						console.log('no data!');
 						return prev;
 					}
 					console.log('data! : ', prev, ':', subscriptionData);

@@ -10,4 +10,6 @@ export default graphql(gql`
 			id
 		}
 	}
-`)
+`, {
+	name: 'completeAchievement'
+})

@@ -17,7 +17,6 @@ export default class ScoutOverview extends React.Component {
 		const {
 			scoutID, 
 			displayName, 
-			advancementDeadline,
 		} = this.props;
 		const appBarProps = {
 			title: displayName,

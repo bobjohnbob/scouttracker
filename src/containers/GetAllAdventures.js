@@ -49,7 +49,6 @@ export default graphql(gql`
 					scoutID: params.scoutID
 				},
 				updateQuery: (prev, {subscriptionData}) => {
-					console.log("SubscriptionData: ", subscriptionData);
 					if(!subscriptionData.data) {
 						return prev;
 					}
