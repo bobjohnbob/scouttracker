@@ -1,9 +1,14 @@
 import React from 'react';
+import {Div} from 'glamorous';
+import { compose } from 'react-apollo';
 import Achievement from './Achievement.js';
 import CompleteAchievement from '../containers/CompleteAchievement.js';
-import {Div} from 'glamorous';
+import UncompleteAchievement from '../containers/UncompleteAchievement.js';
 
-const AchievementButton = CompleteAchievement(Achievement);
+const AchievementButton = compose(
+	CompleteAchievement,
+	UncompleteAchievement
+)(Achievement);
 
 export default class AchievementList extends React.Component {
 	
@@ -31,9 +36,13 @@ export default class AchievementList extends React.Component {
 		}
 		
 		const list = [...allAchievements].sort((a, b) => {
-			if (a.number === b.number)
-				return a.letter > b.letter;
-			return a.number > b.number;
+			if (a.number === b.number) {
+				if(!a.letter) return -1;
+				if(!b.letter) return 1;
+				
+				return a.letter.toLowerCase().localeCompare(b.letter.toLowerCase());
+			}
+			return a.number - b.number;
 		}).map(achievement => {
 			const props = {
 				key: achievement.id,

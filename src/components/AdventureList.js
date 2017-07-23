@@ -16,7 +16,6 @@ export default class AdventureList extends React.Component {
 			allAdventures,
 			completedAdventures
 		} = this.props;
-		console.log("completed!: ", completedAdventures);
 
 		if(!allAdventures || !allAdventures.length) {
 			return <div> Loading... </div>
@@ -27,7 +26,8 @@ export default class AdventureList extends React.Component {
 			return map;
 		}, {});
 		
-		const sortedAdventures = [...allAdventures].sort((a,b) => (a.number > b.number));
+		const newArray = [...allAdventures];
+		const sortedAdventures = newArray.sort((a,b) => (parseInt(a.number) - parseInt(b.number)));
 
 		const [
 			requiredAdventures, 
@@ -45,7 +45,6 @@ export default class AdventureList extends React.Component {
 		});
 
 		const optionalAdventureList = optionalAdventures.map(adventure => {
-			console.log("ADVENTURE!: ", adventure);
 			const props = {
 				key: adventure.id,
 				scoutID: scoutID,
@@ -61,7 +60,7 @@ export default class AdventureList extends React.Component {
 			</div>
 			<div>
 				{
-					//optionalAdventureList
+					optionalAdventureList
 				}
 			</div>
 		</div>;

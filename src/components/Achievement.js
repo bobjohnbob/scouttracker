@@ -15,18 +15,24 @@ export default({
 	description, 
 	additionalText,
 	scoutID,
-	mutate
+	completeAchievement,
+	uncompleteAchievement
 }) => {
 	if(completed) {
+		console.log("Completed: ", completed);
+		const variables = {
+			id: completed.id
+		};
 		return <Div 
+			onClick={()=>{uncompleteAchievement({variables})}}
 			fontSize={`${size/2}rem`}
 			border={`0.2rem solid ${blue}`}
 			display="inline-flex"
 			color="white"
-			background-color={blue}
+			backgroundColor={blue}
 			width={size_rem}
 			height={size_rem}
-			border-radius={size_rem}
+			borderRadius={size_rem}
 			margin={pad}
 			cursor="pointer"
 		>
@@ -34,8 +40,8 @@ export default({
 				display="flex" 
 				width={size_rem} 
 				height={size_rem} 
-				justify-content="center" 
-				align-items="center"
+				justifyContent="center" 
+				alignItems="center"
 			>
 				<Div display="inline-flex">{number}{letter}</Div>
 			</Div>
@@ -49,14 +55,14 @@ export default({
 		};
 
 		return <Div
-			onClick={()=>{mutate({variables})}}
+			onClick={()=>{completeAchievement({variables})}}
 			fontSize={`${size/2}rem`}
 			border={`0.15rem solid ${blue}`}
 			display="inline-flex"
 			color={blue}
 			width={size_rem}
 			height={size_rem}
-			border-radius={size_rem}
+			borderRadius={size_rem}
 			margin={pad}
 			cursor="pointer"
 		>
@@ -64,11 +70,12 @@ export default({
 				display="flex" 
 				width={size_rem} 
 				height={size_rem} 
-				justify-content="center" 
-				align-items="center"
+				justifyContent="center" 
+				alignItems="center"
 			>
 				<Div display="inline-flex">{number}{letter}</Div>
 			</Div>
 		</Div>
 	}
 };
+
